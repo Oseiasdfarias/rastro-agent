@@ -49,3 +49,18 @@ def evaluate(
 
     scores = run(strategy, deps, limit, on_case=show)
     typer.echo(json.dumps(save(strategy, name, scores, load_truth(deps.conn), out), indent=2))
+
+
+@app.command("eval-manuals")
+def evaluate_manuals(k: int = 3, thresholds: str = "0,0.84,0.85,0.86,0.87") -> None:
+    """Score manual retrieval on the generator's symptom notes, for several score thresholds."""
+    from evals.manuals import score_queries
+    from rastro.adapters.db import connect
+    from rastro.adapters.manuals.ingest import E5Embedder
+    from rastro.adapters.manuals.pgvector import PgVectorManuals
+    from synthdata.texts import SYMPTOM_NOTES
+
+    s = get_settings()
+    manuals = PgVectorManuals(connect(s.database_url), E5Embedder(s.embed_model))
+    for th in (float(x) for x in thresholds.split(",")):
+        typer.echo(json.dumps(score_queries(manuals, SYMPTOM_NOTES, k=k, min_score=th)))

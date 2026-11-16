@@ -23,7 +23,7 @@
       "evidence_valid": true,
       "steps": 6,
       "tokens": 15481,
-      "seconds": 8.84,
+      "seconds": 7.11,
       "predicted": "factory_cause",
       "error": null
     },
@@ -35,7 +35,7 @@
       "evidence_valid": false,
       "steps": 8,
       "tokens": 16739,
-      "seconds": 8.49,
+      "seconds": 7.88,
       "predicted": "insufficient_data",
       "error": null
     },
@@ -47,7 +47,7 @@
       "evidence_valid": true,
       "steps": 6,
       "tokens": 12971,
-      "seconds": 5.93,
+      "seconds": 6.42,
       "predicted": "factory_cause",
       "error": null
     },
@@ -59,7 +59,7 @@
       "evidence_valid": true,
       "steps": 6,
       "tokens": 14550,
-      "seconds": 7.15,
+      "seconds": 6.37,
       "predicted": "factory_cause",
       "error": null
     },
@@ -71,7 +71,7 @@
       "evidence_valid": true,
       "steps": 6,
       "tokens": 13280,
-      "seconds": 7.03,
+      "seconds": 6.67,
       "predicted": "factory_cause",
       "error": null
     },
@@ -83,7 +83,7 @@
       "evidence_valid": true,
       "steps": 6,
       "tokens": 11380,
-      "seconds": 7.67,
+      "seconds": 7.69,
       "predicted": "no_factory_cause",
       "error": null
     },
@@ -95,7 +95,7 @@
       "evidence_valid": false,
       "steps": 6,
       "tokens": 12749,
-      "seconds": 9.17,
+      "seconds": 6.66,
       "predicted": "insufficient_data",
       "error": null
     },
@@ -107,7 +107,7 @@
       "evidence_valid": true,
       "steps": 6,
       "tokens": 13021,
-      "seconds": 7.47,
+      "seconds": 7.54,
       "predicted": "factory_cause",
       "error": null
     },
@@ -119,7 +119,7 @@
       "evidence_valid": true,
       "steps": 6,
       "tokens": 14279,
-      "seconds": 7.03,
+      "seconds": 8.1,
       "predicted": "factory_cause",
       "error": null
     },
@@ -131,7 +131,7 @@
       "evidence_valid": true,
       "steps": 5,
       "tokens": 8575,
-      "seconds": 5.93,
+      "seconds": 5.97,
       "predicted": "no_factory_cause",
       "error": null
     },
@@ -143,7 +143,7 @@
       "evidence_valid": true,
       "steps": 6,
       "tokens": 12735,
-      "seconds": 7.31,
+      "seconds": 7.09,
       "predicted": "factory_cause",
       "error": null
     },
@@ -155,7 +155,7 @@
       "evidence_valid": true,
       "steps": 5,
       "tokens": 8512,
-      "seconds": 6.04,
+      "seconds": 5.99,
       "predicted": "no_factory_cause",
       "error": null
     },
@@ -167,7 +167,7 @@
       "evidence_valid": true,
       "steps": 7,
       "tokens": 17493,
-      "seconds": 7.89,
+      "seconds": 8.38,
       "predicted": "factory_cause",
       "error": null
     },
@@ -179,7 +179,7 @@
       "evidence_valid": true,
       "steps": 6,
       "tokens": 12688,
-      "seconds": 6.43,
+      "seconds": 6.31,
       "predicted": "factory_cause",
       "error": null
     },
@@ -191,7 +191,7 @@
       "evidence_valid": true,
       "steps": 6,
       "tokens": 11886,
-      "seconds": 7.32,
+      "seconds": 6.75,
       "predicted": "no_factory_cause",
       "error": null
     },
@@ -203,7 +203,7 @@
       "evidence_valid": false,
       "steps": 7,
       "tokens": 15508,
-      "seconds": 8.18,
+      "seconds": 8.4,
       "predicted": "insufficient_data",
       "error": null
     },
@@ -215,7 +215,7 @@
       "evidence_valid": true,
       "steps": 5,
       "tokens": 8559,
-      "seconds": 5.68,
+      "seconds": 5.27,
       "predicted": "no_factory_cause",
       "error": null
     },
@@ -227,7 +227,7 @@
       "evidence_valid": false,
       "steps": 6,
       "tokens": 12996,
-      "seconds": 7.1,
+      "seconds": 6.79,
       "predicted": "insufficient_data",
       "error": null
     },
@@ -239,7 +239,7 @@
       "evidence_valid": true,
       "steps": 5,
       "tokens": 8490,
-      "seconds": 6.43,
+      "seconds": 6.37,
       "predicted": "no_factory_cause",
       "error": null
     },
@@ -251,7 +251,7 @@
       "evidence_valid": true,
       "steps": 6,
       "tokens": 13047,
-      "seconds": 6.59,
+      "seconds": 7.25,
       "predicted": "factory_cause",
       "error": null
     },
@@ -263,7 +263,7 @@
       "evidence_valid": true,
       "steps": 6,
       "tokens": 12677,
-      "seconds": 6.91,
+      "seconds": 7.05,
       "predicted": "factory_cause",
       "error": null
     },
@@ -275,7 +275,7 @@
       "evidence_valid": true,
       "steps": 6,
       "tokens": 12828,
-      "seconds": 7.29,
+      "seconds": 14.07,
       "predicted": "factory_cause",
       "error": null
     },
@@ -287,7 +287,7 @@
       "evidence_valid": true,
       "steps": 6,
       "tokens": 13191,
-      "seconds": 7.91,
+      "seconds": 7.1,
       "predicted": "factory_cause",
       "error": null
     },
@@ -299,7 +299,7 @@
       "evidence_valid": true,
       "steps": 6,
       "tokens": 13003,
-      "seconds": 7.68,
+      "seconds": 6.92,
       "predicted": "factory_cause",
       "error": null
     },
@@ -311,7 +311,7 @@
       "evidence_valid": true,
       "steps": 5,
       "tokens": 8582,
-      "seconds": 6.42,
+      "seconds": 5.53,
       "predicted": "no_factory_cause",
       "error": null
     },
@@ -323,7 +323,7 @@
       "evidence_valid": true,
       "steps": 6,
       "tokens": 12898,
-      "seconds": 7.38,
+      "seconds": 6.95,
       "predicted": "factory_cause",
       "error": null
     },
@@ -335,7 +335,7 @@
       "evidence_valid": true,
       "steps": 7,
       "tokens": 17157,
-      "seconds": 8.49,
+      "seconds": 8.09,
       "predicted": "factory_cause",
       "error": null
     },
@@ -347,7 +347,7 @@
       "evidence_valid": true,
       "steps": 6,
       "tokens": 13875,
-      "seconds": 7.05,
+      "seconds": 7.27,
       "predicted": "factory_cause",
       "error": null
     },
@@ -359,7 +359,7 @@
       "evidence_valid": true,
       "steps": 6,
       "tokens": 15347,
-      "seconds": 6.84,
+      "seconds": 6.81,
       "predicted": "factory_cause",
       "error": null
     },
@@ -371,7 +371,7 @@
       "evidence_valid": true,
       "steps": 5,
       "tokens": 8580,
-      "seconds": 6.57,
+      "seconds": 6.13,
       "predicted": "no_factory_cause",
       "error": null
     },
@@ -383,7 +383,7 @@
       "evidence_valid": false,
       "steps": 6,
       "tokens": 13811,
-      "seconds": 6.81,
+      "seconds": 6.61,
       "predicted": "insufficient_data",
       "error": null
     },
@@ -395,7 +395,7 @@
       "evidence_valid": true,
       "steps": 6,
       "tokens": 12882,
-      "seconds": 6.89,
+      "seconds": 7.67,
       "predicted": "factory_cause",
       "error": null
     },
@@ -407,7 +407,7 @@
       "evidence_valid": true,
       "steps": 6,
       "tokens": 12857,
-      "seconds": 6.8,
+      "seconds": 7.27,
       "predicted": "factory_cause",
       "error": null
     },
@@ -419,7 +419,7 @@
       "evidence_valid": true,
       "steps": 5,
       "tokens": 8636,
-      "seconds": 6.55,
+      "seconds": 6.01,
       "predicted": "no_factory_cause",
       "error": null
     },
@@ -431,7 +431,7 @@
       "evidence_valid": false,
       "steps": 8,
       "tokens": 14974,
-      "seconds": 7.67,
+      "seconds": 8.61,
       "predicted": "no_factory_cause",
       "error": null
     },
@@ -443,7 +443,7 @@
       "evidence_valid": true,
       "steps": 6,
       "tokens": 14513,
-      "seconds": 7.65,
+      "seconds": 7.27,
       "predicted": "factory_cause",
       "error": null
     },
@@ -455,7 +455,7 @@
       "evidence_valid": false,
       "steps": 7,
       "tokens": 14521,
-      "seconds": 7.7,
+      "seconds": 8.31,
       "predicted": "insufficient_data",
       "error": null
     },
@@ -467,7 +467,7 @@
       "evidence_valid": true,
       "steps": 6,
       "tokens": 12592,
-      "seconds": 7.13,
+      "seconds": 7.46,
       "predicted": "factory_cause",
       "error": null
     },
@@ -479,7 +479,7 @@
       "evidence_valid": true,
       "steps": 6,
       "tokens": 12348,
-      "seconds": 8.05,
+      "seconds": 7.07,
       "predicted": "factory_cause",
       "error": null
     },
@@ -491,7 +491,7 @@
       "evidence_valid": true,
       "steps": 5,
       "tokens": 8597,
-      "seconds": 6.44,
+      "seconds": 6.63,
       "predicted": "no_factory_cause",
       "error": null
     }

@@ -39,7 +39,7 @@ Guards in the loop:
 | Unknown tool, bad JSON, wrong type, window > 60 days | `tools/registry.py` | error returned as a tool message |
 | Tool call written as text by a small model | `adapters/llm/gateway.py` | recovered as a real call |
 | Record id that does not exist or was never returned by a tool | `application/finalize.py` | removed, confidence halved, noted in `open_questions` |
-| `factory_cause` with no evidence left | `application/finalize.py` | becomes `insufficient_data` |
+| `factory_cause` with no maintenance record (QMEL/AUFK) left | `application/finalize.py` | becomes `insufficient_data` |
 | Provider down | `adapters/llm/gateway.py` | next model in `LLM_MODELS`; if none, API answers 503 |
 
 ## Services

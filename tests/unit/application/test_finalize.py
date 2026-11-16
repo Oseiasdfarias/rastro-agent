@@ -54,4 +54,10 @@ def test_parse_report_handles_garbage_and_fences():
 def test_downgrade_explains_missing_evidence():
     r = finalize(_draft(evidence=[]), ERP, seen_ids=set())
     assert r.verdict is Verdict.insufficient_data
-    assert any("no record cited" in q for q in r.open_questions)
+    assert any("no maintenance record cited" in q for q in r.open_questions)
+
+
+def test_manual_chunk_alone_is_not_evidence_for_a_cause():
+    r = finalize(_draft(evidence=["MANUAL:200/0"]), ERP, seen_ids={"MANUAL:200/0"})
+    assert r.verdict is Verdict.insufficient_data
+    assert r.evidence == ["MANUAL:200/0"]

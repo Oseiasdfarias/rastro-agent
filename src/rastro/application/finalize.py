@@ -43,8 +43,10 @@ def finalize(draft: RootCauseReport, erp: ErpPort, seen_ids: set[str]) -> RootCa
             *draft.open_questions,
             f"removed unverified evidence: {', '.join(dropped)}",
         ]
-    if draft.verdict is Verdict.factory_cause and not kept:
+    maintenance = [r for r in kept if r.startswith(("QMEL:", "AUFK:"))]
+    if draft.verdict is Verdict.factory_cause and not maintenance:
         update["verdict"] = Verdict.insufficient_data
-        note = f"no record cited for {draft.equnr} / {draft.failure_mode}; cause not accepted"
+        note = (f"no maintenance record cited for {draft.equnr} / {draft.failure_mode}; "
+                "cause not accepted")
         update["open_questions"] = [*update.get("open_questions", draft.open_questions), note]
     return draft.model_copy(update=update)

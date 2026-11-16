@@ -61,7 +61,8 @@ checked.
   recovery for small models that write the tool call as text.
 - **Every fact has a source.** The final report cites record ids (`QMEL:…`, `AUFK:…`,
   `LIPS:…`). Ids that do not exist, or that no tool returned, are removed and the confidence
-  drops. A cause with no evidence left becomes `insufficient_data`.
+  drops. A cause without a maintenance record (QMEL/AUFK) becomes `insufficient_data`;
+  manual chunks are context, not evidence.
 - **A human decides.** The run pauses for review (approve, reject, edit) and resumes from a
   Postgres checkpoint.
 - **Measured against a simpler option.** A fixed pipeline makes the same lookups in a fixed
@@ -174,6 +175,10 @@ assets/identity/  logo, favicon, banners, brand guide
 - **Small local model.** Results with `qwen2.5:3b` on CPU say as much about the model as about
   the design. Re-run `make eval` with a larger model to compare.
 - **40 cases.** Differences of one or two cases are noise.
+- **The manual search is weak.** The indexed manual is for electric motors. On the 20 symptom
+  notes, 55 of 60 returned chunks were unrelated, and similarity scores do not separate good
+  from bad, so no threshold is applied ([details](docs/evaluation.md#manual-retrieval-2026-11-16)).
+  Manual chunks are context only; a cause needs a maintenance record.
 - **No real SAP connection.** Table and field names follow SAP; no RFC/OData client exists.
 - The `cli` service uses host networking to reach a host Ollama, which is Linux only
   ([ADR 0003](docs/adr/0003-cli-on-host-network.md)).
@@ -203,7 +208,7 @@ semana. Os dados estão em sistemas diferentes e as notas de manutenção são t
 - **Proteções em volta do modelo.** Limite de passos, chamada repetida bloqueada, troca de
   provedor quando um cai, e recuperação de chamada de ferramenta escrita como texto.
 - **Todo fato tem fonte.** O relatório cita ids de registro (`QMEL:…`, `AUFK:…`, `LIPS:…`). Id
-  que não existe ou que nenhuma ferramenta devolveu é removido. Causa sem evidência vira
+  que não existe ou que nenhuma ferramenta devolveu é removido. Causa sem registro de manutenção (QMEL/AUFK) vira
   `insufficient_data`.
 - **Uma pessoa decide.** A execução pausa para revisão (aprovar, recusar, editar) e retoma de
   um checkpoint no Postgres.
@@ -251,6 +256,10 @@ make test
 - **Dados sintéticos.** Uma fábrica fictícia, 6 máquinas, 26 semanas, 5 modos de falha. Nomes
   de tabela e campo seguem o SAP; não há conexão com SAP real.
 - **40 casos.** Diferença de um ou dois casos é ruído.
+- **A busca no manual é fraca.** O manual indexado é de motores elétricos. Nas 20 notas de
+  sintoma, 55 dos 60 trechos devolvidos não tinham relação, e a nota de semelhança não separa o
+  bom do ruim; por isso não há limite. Trecho de manual é só contexto; causa precisa de registro
+  de manutenção.
 - **Um modelo pequeno na nuvem.** O `qwen2.5:3b` em CPU passou de 5 minutos por chamada nos
   prompts longos.
 

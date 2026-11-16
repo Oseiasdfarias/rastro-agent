@@ -23,8 +23,7 @@
   <a href="docs/architecture.md">Architecture</a> ·
   <a href="docs/synthetic-data.md">Synthetic data</a> ·
   <a href="docs/evaluation.md">Evaluation</a> ·
-  <a href="assets/identity/README.md">Brand</a> ·
-  <a href="README.pt-BR.md">Português</a>
+  <a href="assets/identity/README.md">Brand</a>
 </p>
 
 ---
@@ -32,11 +31,11 @@
 ## The demo moment
 
 ```
-CRM case CS-00002: "borracha mole e pegajosa", no delivery number
+CRM complaint, delivery number missing
   → agent finds the customer's deliveries of that material in the last 90 days
-  → batch B2602…PR032 came from press PR-03, produced on 14 Feb
-  → PR-03 maintenance notes that week: "temp. placa sup oscilando", then a heater replaced
-  → report: factory_cause · PR-03 · heater_drift · 4 cited records · waiting for review
+  → batch origin: production order, work center, press
+  → maintenance notes on that press around the production date
+  → report: verdict · equipment · failure mode · cited record ids → waiting for human review
 ```
 
 ## The problem
@@ -88,7 +87,7 @@ ERP for a real one is a new class in `adapters/erp/`. Details in
 
 ## Results
 
-<!-- RESULTS -->
+Evaluation in progress: 40 cases, agent vs fixed pipeline. The table goes here when the run finishes; raw outputs land in [`results/`](results/).
 
 ## Run it
 

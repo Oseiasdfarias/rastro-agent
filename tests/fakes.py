@@ -93,3 +93,17 @@ class StaticManuals:
 
     def search(self, query, k=4):
         return self._p[:k]
+
+
+class ScriptedLlm:
+    def __init__(self, responses):
+        self.responses, self.calls = list(responses), []
+
+    def chat(self, messages, tools=None, response_format=None):
+        from rootcause.application.ports import ChatResult
+
+        self.calls.append(
+            {"messages": messages, "tools": tools, "response_format": response_format}
+        )
+        r = self.responses.pop(0)
+        return r if isinstance(r, ChatResult) else ChatResult(content=r, tokens=10, model="fake")

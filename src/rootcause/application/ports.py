@@ -54,3 +54,13 @@ class LlmPort(Protocol):
         tools: list[dict] | None = None,
         response_format: type[BaseModel] | None = None,
     ) -> ChatResult: ...
+
+
+class CaseNotFound(LookupError):
+    pass
+
+
+@dataclass(frozen=True)
+class RunStats:
+    steps: int
+    tokens: int

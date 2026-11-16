@@ -73,6 +73,8 @@ class LlmClient:
                 kw["num_ctx"] = self.num_ctx
                 if self.ollama_base_url:
                     kw["api_base"] = self.ollama_base_url
+            else:
+                kw["num_retries"] = 4  # cloud free tiers answer 429 under bursts
             try:
                 resp = self._completion(_route(model), **kw)
             except Exception as e:  # noqa: BLE001 - any provider failure moves to the next one

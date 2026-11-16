@@ -62,3 +62,15 @@ def test_ollama_gets_large_context_window():
         num_ctx=16384,
     ).chat([])
     assert seen["num_ctx"] == 16384 and seen["api_base"] == "http://o:11434"
+
+
+def test_cloud_models_retry_but_ollama_does_not():
+    seen = []
+
+    def completion(model, **kw):
+        seen.append((model, kw.get("num_retries")))
+        return _resp("ok")
+
+    LlmClient(["gemini/gemini-2.5-flash"], completion=completion).chat([])
+    LlmClient(["ollama/qwen2.5:3b"], completion=completion).chat([])
+    assert seen == [("gemini/gemini-2.5-flash", 4), ("ollama_chat/qwen2.5:3b", None)]

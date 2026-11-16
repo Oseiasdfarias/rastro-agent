@@ -47,10 +47,11 @@ class LlmClient:
         completion: Callable | None = None,
         timeout: float = 300,
         cache: bool = False,
+        num_ctx: int = 16384,
     ):
         self.models, self.ollama_base_url = models, ollama_base_url
         self._completion = completion or _litellm_completion
-        self.timeout, self.cache = timeout, cache
+        self.timeout, self.cache, self.num_ctx = timeout, cache, num_ctx
 
     def chat(
         self,
@@ -67,8 +68,11 @@ class LlmClient:
                 kw["tools"] = tools
             if response_format:
                 kw["response_format"] = response_format
-            if model.startswith("ollama/") and self.ollama_base_url:
-                kw["api_base"] = self.ollama_base_url
+            if model.startswith("ollama/"):
+                # Ollama silently truncates prompts longer than its small default window
+                kw["num_ctx"] = self.num_ctx
+                if self.ollama_base_url:
+                    kw["api_base"] = self.ollama_base_url
             try:
                 resp = self._completion(_route(model), **kw)
             except Exception as e:  # noqa: BLE001 - any provider failure moves to the next one

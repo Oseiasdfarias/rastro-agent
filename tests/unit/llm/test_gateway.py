@@ -46,3 +46,19 @@ def test_inline_json_tool_call_in_content_is_recovered():
     llm = LlmClient(["x/y"], completion=lambda model, **kw: _resp(content))
     r = llm.chat([], tools=[{"type": "function", "function": {"name": "get_case"}}])
     assert r.tool_calls[0].name == "get_case" and r.content is None
+
+
+def test_ollama_gets_large_context_window():
+    seen = {}
+
+    def completion(model, **kw):
+        seen.update(kw)
+        return _resp("ok")
+
+    LlmClient(
+        ["ollama/qwen2.5:3b"],
+        ollama_base_url="http://o:11434",
+        completion=completion,
+        num_ctx=16384,
+    ).chat([])
+    assert seen["num_ctx"] == 16384 and seen["api_base"] == "http://o:11434"

@@ -13,6 +13,7 @@ class Settings(BaseSettings):
     llm_models: Annotated[list[str], NoDecode] = ["ollama/qwen2.5:3b"]
     ollama_base_url: str = "http://host.docker.internal:11434"
     max_steps: int = 8
+    ollama_num_ctx: int = 16384
     embed_model: str = "intfloat/multilingual-e5-small"
     langfuse_enabled: bool = False
     llm_cache: bool = True

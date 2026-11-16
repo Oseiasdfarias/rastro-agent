@@ -1,5 +1,8 @@
 name: rootcause
 
+include:
+  - src/deploy/langfuse.compose.yml
+
 x-app: &app
   build:
     context: .

@@ -15,6 +15,7 @@ class Settings(BaseSettings):
     max_steps: int = 8
     embed_model: str = "intfloat/multilingual-e5-small"
     langfuse_enabled: bool = False
+    llm_cache: bool = True
 
     @field_validator("llm_models", mode="before")
     @classmethod

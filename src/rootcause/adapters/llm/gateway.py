@@ -21,6 +21,24 @@ def _route(model: str) -> str:
     return "ollama_chat/" + model.removeprefix("ollama/") if model.startswith("ollama/") else model
 
 
+def configure_litellm(redis_url: str | None, langfuse: bool) -> bool:
+    from urllib.parse import urlparse
+
+    import litellm
+
+    if langfuse and "langfuse_otel" not in litellm.callbacks:
+        litellm.callbacks = [*litellm.callbacks, "langfuse_otel"]
+    if not redis_url:
+        return False
+    from litellm.caching.caching import Cache
+
+    u = urlparse(redis_url)
+    litellm.cache = Cache(
+        type="redis", host=u.hostname, port=str(u.port or 6379), password=u.password, ttl=24 * 3600
+    )
+    return True
+
+
 class LlmClient:
     def __init__(
         self,
@@ -28,10 +46,11 @@ class LlmClient:
         ollama_base_url: str | None = None,
         completion: Callable | None = None,
         timeout: float = 300,
+        cache: bool = False,
     ):
         self.models, self.ollama_base_url = models, ollama_base_url
         self._completion = completion or _litellm_completion
-        self.timeout = timeout
+        self.timeout, self.cache = timeout, cache
 
     def chat(
         self,
@@ -42,6 +61,8 @@ class LlmClient:
         errors = []
         for model in self.models:
             kw: dict = {"messages": messages, "temperature": 0, "timeout": self.timeout}
+            if self.cache:
+                kw["caching"] = True
             if tools:
                 kw["tools"] = tools
             if response_format:

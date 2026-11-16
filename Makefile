@@ -1,4 +1,4 @@
-.PHONY: help build up down seed eval investigate test test-int lint shell
+.PHONY: help build up observability down seed eval investigate test test-int lint shell
 .DEFAULT_GOAL := help
 RUN = docker compose run --rm api
 
@@ -11,8 +11,11 @@ build:  ## constrói a imagem da aplicação
 up:  ## sobe banco, Redis e API
 	docker compose up -d db redis api
 
+observability:  ## sobe o Langfuse em http://localhost:3000
+	docker compose --profile observability up -d
+
 down:  ## para tudo (os volumes ficam)
-	docker compose down
+	docker compose --profile observability --profile tools down
 
 seed:  ## gera os dados sintéticos e indexa os manuais
 	docker compose --profile tools run --rm seed

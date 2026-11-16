@@ -10,3 +10,4 @@ results/*.log
 .superpowers/
 dist/
 *.egg-info/
+!data/.gitkeep

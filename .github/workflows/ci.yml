@@ -1,0 +1,46 @@
+name: CI
+
+on:
+  push:
+    branches: [develop, main]
+  pull_request:
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+      - run: uvx ruff check src tests
+      - run: uvx ruff format --check src tests
+
+  test:
+    runs-on: ubuntu-latest
+    services:
+      db:
+        image: pgvector/pgvector:pg16
+        env:
+          POSTGRES_USER: rootcause
+          POSTGRES_PASSWORD: rootcause
+          POSTGRES_DB: rootcause
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U rootcause" --health-interval 5s --health-retries 10
+    env:
+      DATABASE_URL: postgresql://rootcause:rootcause@localhost:5432/rootcause
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+      - run: uv sync --frozen --extra dev
+      - run: uv run pytest
+      - run: uv run pytest -m integration
+
+  docker-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: src/deploy/Dockerfile
+          push: false

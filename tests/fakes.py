@@ -76,3 +76,20 @@ class InMemoryCrm:
 
     def list_case_ids(self) -> list[str]:
         return sorted(self._cases)
+
+
+class StaticManuals:
+    def __init__(self, passages=None):
+        from rootcause.domain.models import ManualPassage
+
+        self._p = passages or [
+            ManualPassage(
+                record_id="MANUAL:200/0",
+                page=200,
+                score=0.9,
+                text="Rolamentos: ruído e vibração indicam desgaste; substituir.",
+            ),
+        ]
+
+    def search(self, query, k=4):
+        return self._p[:k]

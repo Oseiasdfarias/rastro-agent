@@ -2,7 +2,7 @@ from datetime import date
 
 import pytest
 
-from rootcause.domain.models import Verdict
+from rastro.domain.models import Verdict
 from synthdata.generator import generate
 from tests.fakes import InMemoryCrm, InMemoryErp
 
@@ -15,9 +15,9 @@ DS = generate(seed=7)
 def ports(request):
     if request.param == "memory":
         return InMemoryErp(DS), InMemoryCrm(DS)
-    from rootcause.adapters.crm.postgres import PostgresCrm
-    from rootcause.adapters.db import connect
-    from rootcause.adapters.erp.postgres import PostgresErp
+    from rastro.adapters.crm.postgres import PostgresCrm
+    from rastro.adapters.db import connect
+    from rastro.adapters.erp.postgres import PostgresErp
 
     request.getfixturevalue("loaded_db")
     conn = connect(request.getfixturevalue("db_url"))

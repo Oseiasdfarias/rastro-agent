@@ -1,7 +1,7 @@
 import psycopg
 
-from rootcause.adapters import rows
-from rootcause.domain.models import Case
+from rastro.adapters import rows
+from rastro.domain.models import Case
 
 
 class PostgresCrm:

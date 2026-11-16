@@ -2,7 +2,7 @@ import numpy as np
 import psycopg
 from pgvector.psycopg import register_vector
 
-from rootcause.domain.models import ManualPassage
+from rastro.domain.models import ManualPassage
 
 
 class PgVectorManuals:

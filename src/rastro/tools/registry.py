@@ -3,9 +3,9 @@ from dataclasses import dataclass, field
 
 from pydantic import ValidationError
 
-from rootcause.application.ports import CrmPort, ErpPort, ManualsPort, ToolCall
-from rootcause.domain.records import make_id
-from rootcause.tools import specs
+from rastro.application.ports import CrmPort, ErpPort, ManualsPort, ToolCall
+from rastro.domain.records import make_id
+from rastro.tools import specs
 
 
 @dataclass(frozen=True)

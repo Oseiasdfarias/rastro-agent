@@ -1,10 +1,10 @@
 # Map of the repository for selective reading.
-src/rootcause/domain: entities and record ids, no dependencies
-src/rootcause/application: ports, fixed pipeline, report finalization (evidence check)
-src/rootcause/agent: LangGraph graph, state, prompts
-src/rootcause/tools: tool argument models and registry used by the LLM
-src/rootcause/adapters: Postgres ERP/CRM, pgvector manuals, LiteLLM gateway, step log
-src/rootcause/api: FastAPI service with human review
+src/rastro/domain: entities and record ids, no dependencies
+src/rastro/application: ports, fixed pipeline, report finalization (evidence check)
+src/rastro/agent: LangGraph graph, state, prompts
+src/rastro/tools: tool argument models and registry used by the LLM
+src/rastro/adapters: Postgres ERP/CRM, pgvector manuals, LiteLLM gateway, step log
+src/rastro/api: FastAPI service with human review
 src/synthdata: synthetic SAP/CRM generator, schema, loader
 src/evals: scoring and evaluation runner
 src/deploy: Dockerfile and Langfuse compose file

@@ -2,7 +2,7 @@ import json
 import logging
 import sys
 
-_log = logging.getLogger("rootcause.steps")
+_log = logging.getLogger("rastro.steps")
 if not _log.handlers:
     _h = logging.StreamHandler(sys.stdout)
     _h.setFormatter(logging.Formatter("%(message)s"))

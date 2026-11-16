@@ -10,7 +10,7 @@ import psycopg
 from pgvector.psycopg import register_vector
 from pypdf import PdfReader
 
-from rootcause.domain.records import make_id
+from rastro.domain.records import make_id
 
 MANUAL_URL = (
     "https://static.weg.net/medias/downloadcenter/ha6/h39/"

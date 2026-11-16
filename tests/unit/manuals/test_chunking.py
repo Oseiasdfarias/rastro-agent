@@ -1,4 +1,4 @@
-from rootcause.adapters.manuals.ingest import chunk_pages
+from rastro.adapters.manuals.ingest import chunk_pages
 
 
 def test_chunk_overlap():

@@ -3,12 +3,12 @@ from importlib.resources import files
 
 from pydantic import ValidationError
 
-from rootcause.application.ports import ErpPort
-from rootcause.domain.models import RootCauseReport, Verdict
+from rastro.application.ports import ErpPort
+from rastro.domain.models import RootCauseReport, Verdict
 
 
 def report_prompt() -> str:
-    return files("rootcause.agent").joinpath("prompts/report.md").read_text()
+    return files("rastro.agent").joinpath("prompts/report.md").read_text()
 
 
 def parse_report(content: str | None, case_id: str) -> RootCauseReport | None:

@@ -1,7 +1,7 @@
 import pytest
 
 from evals.score import score, summarize
-from rootcause.domain.models import RootCauseReport, Verdict
+from rastro.domain.models import RootCauseReport, Verdict
 from synthdata.generator import generate
 from tests.fakes import InMemoryErp
 

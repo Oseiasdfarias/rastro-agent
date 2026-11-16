@@ -1,6 +1,6 @@
 import pytest
 
-from rootcause.domain.records import make_id, parse_id
+from rastro.domain.records import make_id, parse_id
 
 
 def test_make_and_parse_id_roundtrip():

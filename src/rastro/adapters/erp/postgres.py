@@ -3,9 +3,9 @@ from datetime import date
 import psycopg
 from psycopg import sql
 
-from rootcause.adapters import rows
-from rootcause.domain.models import BatchOrigin, Delivery, MaintenanceEvent
-from rootcause.domain.records import parse_id
+from rastro.adapters import rows
+from rastro.domain.models import BatchOrigin, Delivery, MaintenanceEvent
+from rastro.domain.records import parse_id
 
 _DELIVERY = """SELECT p.vbeln, p.posnr, p.matnr, p.charg, k.kunnr, k.wadat_ist
                FROM lips p JOIN likp k USING (vbeln)"""

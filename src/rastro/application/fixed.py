@@ -1,8 +1,8 @@
 import json
 from datetime import timedelta
 
-from rootcause.application.finalize import finalize, parse_report, report_prompt, unreadable
-from rootcause.application.ports import (
+from rastro.application.finalize import finalize, parse_report, report_prompt, unreadable
+from rastro.application.ports import (
     CaseNotFound,
     CrmPort,
     ErpPort,
@@ -10,8 +10,8 @@ from rootcause.application.ports import (
     ManualsPort,
     RunStats,
 )
-from rootcause.domain.models import RootCauseReport, Verdict
-from rootcause.domain.records import make_id
+from rastro.domain.models import RootCauseReport, Verdict
+from rastro.domain.records import make_id
 
 LOOKBACK = timedelta(days=90)
 MARGIN = timedelta(days=14)

@@ -2,9 +2,9 @@ import json
 
 import pytest
 
-from rootcause.application.ports import ToolCall
-from rootcause.domain.models import Verdict
-from rootcause.tools.registry import ToolRegistry
+from rastro.application.ports import ToolCall
+from rastro.domain.models import Verdict
+from rastro.tools.registry import ToolRegistry
 from synthdata.generator import generate
 from tests.fakes import InMemoryCrm, InMemoryErp, StaticManuals
 

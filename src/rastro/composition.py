@@ -1,13 +1,13 @@
 from dataclasses import dataclass
 
-from rootcause.adapters.crm.postgres import PostgresCrm
-from rootcause.adapters.db import connect
-from rootcause.adapters.erp.postgres import PostgresErp
-from rootcause.adapters.llm.gateway import LlmClient, configure_litellm
-from rootcause.adapters.manuals.ingest import E5Embedder
-from rootcause.adapters.manuals.pgvector import PgVectorManuals
-from rootcause.config import Settings
-from rootcause.tools.registry import ToolRegistry
+from rastro.adapters.crm.postgres import PostgresCrm
+from rastro.adapters.db import connect
+from rastro.adapters.erp.postgres import PostgresErp
+from rastro.adapters.llm.gateway import LlmClient, configure_litellm
+from rastro.adapters.manuals.ingest import E5Embedder
+from rastro.adapters.manuals.pgvector import PgVectorManuals
+from rastro.config import Settings
+from rastro.tools.registry import ToolRegistry
 
 
 @dataclass

@@ -4,18 +4,18 @@ from importlib.resources import files
 from langgraph.graph import END, START, StateGraph
 from langgraph.types import interrupt
 
-from rootcause.adapters.tracing.steplog import log_step
-from rootcause.agent.state import AgentState
-from rootcause.application.finalize import finalize, parse_report, report_prompt, unreadable
-from rootcause.application.ports import ErpPort, LlmPort, RunStats, ToolCall
-from rootcause.domain.models import RootCauseReport
-from rootcause.tools.registry import ToolRegistry
+from rastro.adapters.tracing.steplog import log_step
+from rastro.agent.state import AgentState
+from rastro.application.finalize import finalize, parse_report, report_prompt, unreadable
+from rastro.application.ports import ErpPort, LlmPort, RunStats, ToolCall
+from rastro.domain.models import RootCauseReport
+from rastro.tools.registry import ToolRegistry
 
 DECISIONS = {"approve", "reject", "edit"}
 
 
 def _prompt(name: str) -> str:
-    return files("rootcause.agent").joinpath(f"prompts/{name}").read_text()
+    return files("rastro.agent").joinpath(f"prompts/{name}").read_text()
 
 
 def initial_state(case_id: str) -> AgentState:

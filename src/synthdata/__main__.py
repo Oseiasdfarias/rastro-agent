@@ -3,9 +3,9 @@ from pathlib import Path
 
 import psycopg
 
-from rootcause.adapters.db import connect
-from rootcause.adapters.manuals.ingest import E5Embedder, download, ingest
-from rootcause.config import get_settings
+from rastro.adapters.db import connect
+from rastro.adapters.manuals.ingest import E5Embedder, download, ingest
+from rastro.config import get_settings
 from synthdata.generator import generate
 from synthdata.load import load
 

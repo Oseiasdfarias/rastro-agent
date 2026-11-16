@@ -3,16 +3,16 @@ from pathlib import Path
 
 import typer
 
-from rootcause.config import get_settings
+from rastro.config import get_settings
 
-app = typer.Typer(no_args_is_help=True, help="rootcause-agent command line")
+app = typer.Typer(no_args_is_help=True, help="rastro-agent command line")
 
 
 @app.command()
 def investigate(case_id: str, strategy: str = "agent", model: str | None = None) -> None:
     """Investigate one CRM case and print the report."""
     from evals.runner import investigate as run_one
-    from rootcause.composition import build
+    from rastro.composition import build
 
     deps = build(get_settings(), [model] if model else None)
     report, stats = run_one(strategy, case_id, deps)
@@ -34,7 +34,7 @@ def evaluate(
 ) -> None:
     """Run the evaluation cases and save the scores."""
     from evals.runner import load_truth, run, save
-    from rootcause.composition import build
+    from rastro.composition import build
 
     settings = get_settings()
     deps = build(settings, [model] if model else None)

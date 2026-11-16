@@ -1,6 +1,6 @@
 import litellm
 
-from rootcause.adapters.llm.gateway import LlmClient, configure_litellm
+from rastro.adapters.llm.gateway import LlmClient, configure_litellm
 
 
 def test_configure_enables_langfuse_and_redis_cache(monkeypatch):

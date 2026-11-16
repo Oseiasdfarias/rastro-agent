@@ -4,7 +4,7 @@ from typing import Protocol
 
 from pydantic import BaseModel
 
-from rootcause.domain.models import BatchOrigin, Case, Delivery, MaintenanceEvent, ManualPassage
+from rastro.domain.models import BatchOrigin, Case, Delivery, MaintenanceEvent, ManualPassage
 
 
 class CrmPort(Protocol):

@@ -1,8 +1,8 @@
 from datetime import date
 
-from rootcause.adapters import rows
-from rootcause.domain.models import BatchOrigin, Case, Delivery, MaintenanceEvent
-from rootcause.domain.records import parse_id
+from rastro.adapters import rows
+from rastro.domain.models import BatchOrigin, Case, Delivery, MaintenanceEvent
+from rastro.domain.records import parse_id
 from synthdata.generator import Dataset
 
 
@@ -80,7 +80,7 @@ class InMemoryCrm:
 
 class StaticManuals:
     def __init__(self, passages=None):
-        from rootcause.domain.models import ManualPassage
+        from rastro.domain.models import ManualPassage
 
         self._p = passages or [
             ManualPassage(
@@ -100,7 +100,7 @@ class ScriptedLlm:
         self.responses, self.calls = list(responses), []
 
     def chat(self, messages, tools=None, response_format=None):
-        from rootcause.application.ports import ChatResult
+        from rastro.application.ports import ChatResult
 
         self.calls.append(
             {"messages": messages, "tools": tools, "response_format": response_format}

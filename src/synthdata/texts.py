@@ -1,4 +1,4 @@
-from rootcause.domain.models import FailureMode
+from rastro.domain.models import FailureMode
 
 MATERIALS = [
     ("MAT-1001", "Junta de vedação 40 mm"),

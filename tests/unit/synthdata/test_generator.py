@@ -2,7 +2,7 @@ from datetime import timedelta
 
 import pytest
 
-from rootcause.domain.models import Verdict
+from rastro.domain.models import Verdict
 from synthdata.generator import generate
 
 

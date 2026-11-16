@@ -4,7 +4,7 @@ from random import Random
 
 from pydantic import BaseModel, ConfigDict
 
-from rootcause.domain.models import FailureMode, Verdict
+from rastro.domain.models import FailureMode, Verdict
 from synthdata import texts
 
 START = date(2026, 1, 5)

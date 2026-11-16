@@ -2,8 +2,8 @@ from types import SimpleNamespace as NS
 
 import pytest
 
-from rootcause.adapters.llm.gateway import LlmClient
-from rootcause.application.ports import LlmUnavailable
+from rastro.adapters.llm.gateway import LlmClient
+from rastro.application.ports import LlmUnavailable
 
 
 def _resp(content=None, tool_calls=None):

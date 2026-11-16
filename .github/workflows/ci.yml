@@ -20,14 +20,14 @@ jobs:
       db:
         image: pgvector/pgvector:pg16
         env:
-          POSTGRES_USER: rootcause
-          POSTGRES_PASSWORD: rootcause
-          POSTGRES_DB: rootcause
+          POSTGRES_USER: rastro
+          POSTGRES_PASSWORD: rastro
+          POSTGRES_DB: rastro
         ports: ["5432:5432"]
         options: >-
-          --health-cmd "pg_isready -U rootcause" --health-interval 5s --health-retries 10
+          --health-cmd "pg_isready -U rastro" --health-interval 5s --health-retries 10
     env:
-      DATABASE_URL: postgresql://rootcause:rootcause@localhost:5432/rootcause
+      DATABASE_URL: postgresql://rastro:rastro@localhost:5432/rastro
     steps:
       - uses: actions/checkout@v4
       - uses: astral-sh/setup-uv@v6

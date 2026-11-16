@@ -1,8 +1,8 @@
 import pytest
 
-from rootcause.adapters.db import connect
-from rootcause.adapters.manuals.ingest import store_chunks
-from rootcause.adapters.manuals.pgvector import PgVectorManuals
+from rastro.adapters.db import connect
+from rastro.adapters.manuals.ingest import store_chunks
+from rastro.adapters.manuals.pgvector import PgVectorManuals
 from tests.fakes_embed import HashEmbedder
 
 pytestmark = pytest.mark.integration

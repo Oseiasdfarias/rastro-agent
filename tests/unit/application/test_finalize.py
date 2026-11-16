@@ -1,5 +1,5 @@
-from rootcause.application.finalize import finalize, parse_report
-from rootcause.domain.models import RootCauseReport, Verdict
+from rastro.application.finalize import finalize, parse_report
+from rastro.domain.models import RootCauseReport, Verdict
 from synthdata.generator import generate
 from tests.fakes import InMemoryErp
 

@@ -1,7 +1,7 @@
 from dataclasses import asdict, dataclass
 
-from rootcause.application.ports import ErpPort
-from rootcause.domain.models import RootCauseReport, Verdict
+from rastro.application.ports import ErpPort
+from rastro.domain.models import RootCauseReport, Verdict
 from synthdata.generator import GroundTruth
 
 

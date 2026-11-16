@@ -1,7 +1,7 @@
 # Self-hosted Langfuse v3 for local tracing. Secrets below are local-only placeholders.
 x-langfuse-env: &langfuse-env
   DATABASE_URL: postgresql://langfuse:langfuse@langfuse-db:5432/langfuse
-  SALT: rootcause-local-salt
+  SALT: rastro-local-salt
   ENCRYPTION_KEY: "0000000000000000000000000000000000000000000000000000000000000000"
   TELEMETRY_ENABLED: "false"
   CLICKHOUSE_MIGRATION_URL: clickhouse://clickhouse:9000
@@ -28,16 +28,16 @@ services:
     environment:
       <<: *langfuse-env
       NEXTAUTH_URL: http://localhost:3000
-      NEXTAUTH_SECRET: rootcause-local-secret
-      LANGFUSE_INIT_ORG_ID: rootcause
-      LANGFUSE_INIT_ORG_NAME: rootcause
-      LANGFUSE_INIT_PROJECT_ID: rootcause-agent
-      LANGFUSE_INIT_PROJECT_NAME: rootcause-agent
-      LANGFUSE_INIT_PROJECT_PUBLIC_KEY: pk-lf-rootcause-local
-      LANGFUSE_INIT_PROJECT_SECRET_KEY: sk-lf-rootcause-local
-      LANGFUSE_INIT_USER_EMAIL: admin@rootcause.local
+      NEXTAUTH_SECRET: rastro-local-secret
+      LANGFUSE_INIT_ORG_ID: rastro
+      LANGFUSE_INIT_ORG_NAME: rastro
+      LANGFUSE_INIT_PROJECT_ID: rastro-agent
+      LANGFUSE_INIT_PROJECT_NAME: rastro-agent
+      LANGFUSE_INIT_PROJECT_PUBLIC_KEY: pk-lf-rastro-local
+      LANGFUSE_INIT_PROJECT_SECRET_KEY: sk-lf-rastro-local
+      LANGFUSE_INIT_USER_EMAIL: admin@rastro.local
       LANGFUSE_INIT_USER_NAME: admin
-      LANGFUSE_INIT_USER_PASSWORD: rootcause-admin
+      LANGFUSE_INIT_USER_PASSWORD: rastro-admin
     depends_on: &langfuse-deps
       langfuse-db:
         condition: service_healthy

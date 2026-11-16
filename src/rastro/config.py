@@ -8,7 +8,7 @@ from pydantic_settings import BaseSettings, NoDecode, SettingsConfigDict
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_file=".env", extra="ignore")
 
-    database_url: str = "postgresql://rootcause:rootcause@localhost:55490/rootcause"
+    database_url: str = "postgresql://rastro:rastro@localhost:55490/rastro"
     redis_url: str | None = None
     llm_models: Annotated[list[str], NoDecode] = ["ollama/qwen2.5:3b"]
     ollama_base_url: str = "http://host.docker.internal:11434"

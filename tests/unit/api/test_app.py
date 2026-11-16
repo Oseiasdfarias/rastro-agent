@@ -5,9 +5,9 @@ import pytest
 from fastapi.testclient import TestClient
 from langgraph.checkpoint.memory import MemorySaver
 
-from rootcause.api.app import create_app
-from rootcause.application.ports import LlmUnavailable
-from rootcause.tools.registry import ToolRegistry
+from rastro.api.app import create_app
+from rastro.application.ports import LlmUnavailable
+from rastro.tools.registry import ToolRegistry
 from synthdata.generator import generate
 from tests.fakes import InMemoryCrm, InMemoryErp, ScriptedLlm, StaticManuals
 

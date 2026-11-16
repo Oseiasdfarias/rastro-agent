@@ -3,7 +3,7 @@
 ## Layers
 
 ```
-src/rootcause/
+src/rastro/
   domain/        Case, Delivery, BatchOrigin, MaintenanceEvent, RootCauseReport, record ids
   application/   ports (interfaces), fixed pipeline, finalize (evidence check)
   agent/         LangGraph graph: llm -> tools -> llm ... -> finalize -> review

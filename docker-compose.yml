@@ -1,4 +1,4 @@
-name: rootcause
+name: rastro
 
 include:
   - src/deploy/langfuse.compose.yml
@@ -7,12 +7,12 @@ x-app: &app
   build:
     context: .
     dockerfile: src/deploy/Dockerfile
-  image: rootcause-agent:dev
+  image: rastro-agent:dev
   env_file:
     - path: .env
       required: false
   environment:
-    DATABASE_URL: postgresql://rootcause:rootcause@db:5432/rootcause
+    DATABASE_URL: postgresql://rastro:rastro@db:5432/rastro
     REDIS_URL: redis://redis:6379/0
     OLLAMA_BASE_URL: ${OLLAMA_BASE_URL:-http://host.docker.internal:11434}
   extra_hosts:
@@ -29,15 +29,15 @@ services:
   db:
     image: pgvector/pgvector:pg16
     environment:
-      POSTGRES_USER: rootcause
-      POSTGRES_PASSWORD: rootcause
-      POSTGRES_DB: rootcause
+      POSTGRES_USER: rastro
+      POSTGRES_PASSWORD: rastro
+      POSTGRES_DB: rastro
     ports:
       - "${DB_PORT:-55490}:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U rootcause"]
+      test: ["CMD-SHELL", "pg_isready -U rastro"]
       interval: 5s
       retries: 10
 
@@ -60,10 +60,10 @@ services:
     profiles: [tools]
     network_mode: host
     environment:
-      DATABASE_URL: postgresql://rootcause:rootcause@localhost:${DB_PORT:-55490}/rootcause
+      DATABASE_URL: postgresql://rastro:rastro@localhost:${DB_PORT:-55490}/rastro
       OLLAMA_BASE_URL: ${OLLAMA_BASE_URL:-http://localhost:11434}
     extra_hosts: []
-    entrypoint: ["rootcause"]
+    entrypoint: ["rastro"]
 
   ollama:
     image: ollama/ollama:latest

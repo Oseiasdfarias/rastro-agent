@@ -6,16 +6,16 @@ from fastapi import FastAPI, HTTPException
 from langgraph.types import Command
 from pydantic import ValidationError
 
-from rootcause.agent.graph import build_graph, initial_state
-from rootcause.api.schemas import CreateInvestigation, Investigation, Review
-from rootcause.application.ports import LlmUnavailable
+from rastro.agent.graph import build_graph, initial_state
+from rastro.api.schemas import CreateInvestigation, Investigation, Review
+from rastro.application.ports import LlmUnavailable
 
 STATUS = {"approve": "approved", "reject": "rejected", "edit": "edited"}
 
 
 def _default_deps():
-    from rootcause.composition import build
-    from rootcause.config import get_settings
+    from rastro.composition import build
+    from rastro.config import get_settings
 
     return build(get_settings())
 
@@ -41,7 +41,7 @@ def create_app(deps_factory: Callable = _default_deps, checkpointer=None) -> Fas
         )
         yield
 
-    app = FastAPI(title="rootcause-agent", version="0.1.0", lifespan=lifespan)
+    app = FastAPI(title="rastro-agent", version="0.1.0", lifespan=lifespan)
 
     def _view(thread_id: str) -> Investigation:
         snap = state["graph"].get_state({"configurable": {"thread_id": thread_id}})

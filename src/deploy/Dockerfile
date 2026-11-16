@@ -20,4 +20,4 @@ USER app
 EXPOSE 8000
 HEALTHCHECK --interval=15s --timeout=3s --start-period=20s \
   CMD python -c "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')" || exit 1
-CMD ["uvicorn", "rootcause.api.app:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["uvicorn", "rastro.api.app:app", "--host", "0.0.0.0", "--port", "8000"]

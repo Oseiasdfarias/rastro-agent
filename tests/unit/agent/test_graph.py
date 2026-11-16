@@ -3,10 +3,10 @@ import json
 from langgraph.checkpoint.memory import MemorySaver
 from langgraph.types import Command
 
-from rootcause.agent.graph import build_graph, initial_state, run_agent
-from rootcause.application.ports import ChatResult, ToolCall
-from rootcause.domain.models import Verdict
-from rootcause.tools.registry import ToolRegistry
+from rastro.agent.graph import build_graph, initial_state, run_agent
+from rastro.application.ports import ChatResult, ToolCall
+from rastro.domain.models import Verdict
+from rastro.tools.registry import ToolRegistry
 from synthdata.generator import generate
 from tests.fakes import InMemoryCrm, InMemoryErp, ScriptedLlm, StaticManuals
 

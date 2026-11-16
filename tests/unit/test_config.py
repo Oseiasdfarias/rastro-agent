@@ -1,4 +1,4 @@
-from rootcause.config import get_settings
+from rastro.config import get_settings
 
 
 def test_settings_reads_llm_models_list(monkeypatch):

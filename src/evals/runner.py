@@ -5,10 +5,10 @@ from pathlib import Path
 from typing import Literal
 
 from evals.score import CaseScore, score, summarize
-from rootcause.agent.graph import run_agent
-from rootcause.application.fixed import investigate_fixed
-from rootcause.application.ports import LlmUnavailable
-from rootcause.composition import Deps
+from rastro.agent.graph import run_agent
+from rastro.application.fixed import investigate_fixed
+from rastro.application.ports import LlmUnavailable
+from rastro.composition import Deps
 from synthdata.generator import GroundTruth
 
 Strategy = Literal["agent", "fixed"]

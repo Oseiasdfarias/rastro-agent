@@ -5,7 +5,7 @@ from collections.abc import Callable
 
 from pydantic import BaseModel
 
-from rootcause.application.ports import ChatResult, LlmUnavailable, ToolCall
+from rastro.application.ports import ChatResult, LlmUnavailable, ToolCall
 
 log = logging.getLogger(__name__)
 

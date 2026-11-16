@@ -2,9 +2,9 @@ import json
 
 import pytest
 
-from rootcause.application.fixed import investigate_fixed
-from rootcause.application.ports import CaseNotFound
-from rootcause.domain.models import Case, Verdict
+from rastro.application.fixed import investigate_fixed
+from rastro.application.ports import CaseNotFound
+from rastro.domain.models import Case, Verdict
 from synthdata.generator import generate
 from tests.fakes import InMemoryCrm, InMemoryErp, ScriptedLlm, StaticManuals
 

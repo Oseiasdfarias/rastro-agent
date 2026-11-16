@@ -1,7 +1,7 @@
 import pytest
 from pydantic import ValidationError
 
-from rootcause.domain.models import FailureMode, RootCauseReport, Verdict
+from rastro.domain.models import FailureMode, RootCauseReport, Verdict
 
 
 def _report(**kw):

@@ -87,7 +87,31 @@ ERP for a real one is a new class in `adapters/erp/`. Details in
 
 ## Results
 
-Evaluation in progress: 40 cases, agent vs fixed pipeline. The table goes here when the run finishes; raw outputs land in [`results/`](results/).
+40 cases with a known answer (30 planted failures, 10 complaints with no factory cause),
+`gemini/gemini-3.1-flash-lite`, same tools and same report prompt for both strategies.
+
+| | Fixed pipeline | Agent |
+|---|---|---|
+| Right verdict | **39 / 40** (97.5%) | 33 / 40 (82.5%) |
+| Right equipment (30 failures) | 29 / 30 | 28 / 30 |
+| Right failure mode (30 failures) | 29 / 30 | 27 / 30 |
+| Noise cases answered "no factory cause" | 10 / 10 | 10 / 10 |
+| Tokens per case | 2.1 k | 12.7 k |
+| Seconds per case | 1.8 | 7.2 |
+
+**The simpler design won.** This trail always has the same shape (case → delivery → batch →
+machine → maintenance), so a fixed sequence of lookups plus one LLM call is more accurate,
+6× cheaper and 4× faster than letting the model choose the steps.
+
+Where the agent lost: in 6 of its 7 wrong verdicts it named the right machine and failure mode
+but cited no record in the final report, so the evidence check refused the cause and returned
+`insufficient_data`. The guard did its job; a cause without a source never reaches the
+engineer. An agent earns its cost when the path is not known in advance (several data
+sources, follow-up questions), which this dataset does not test.
+
+Full table and per-case results: [results/](results/) · method: [docs/evaluation.md](docs/evaluation.md).
+`qwen2.5:3b` on CPU took over 5 minutes per call on long prompts, so the published run uses a
+small cloud model; the local model stays the default for `make investigate`.
 
 ## Run it
 

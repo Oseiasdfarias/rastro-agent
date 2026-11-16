@@ -49,3 +49,9 @@ def test_parse_report_handles_garbage_and_fences():
         "CS-1",
     )
     assert r.case_id == "CS-1" and r.verdict is Verdict.no_factory_cause
+
+
+def test_downgrade_explains_missing_evidence():
+    r = finalize(_draft(evidence=[]), ERP, seen_ids=set())
+    assert r.verdict is Verdict.insufficient_data
+    assert any("no record cited" in q for q in r.open_questions)

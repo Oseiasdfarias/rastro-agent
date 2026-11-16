@@ -1,0 +1,14 @@
+# Map of the repository for selective reading.
+src/rootcause/domain: entities and record ids, no dependencies
+src/rootcause/application: ports, fixed pipeline, report finalization (evidence check)
+src/rootcause/agent: LangGraph graph, state, prompts
+src/rootcause/tools: tool argument models and registry used by the LLM
+src/rootcause/adapters: Postgres ERP/CRM, pgvector manuals, LiteLLM gateway, step log
+src/rootcause/api: FastAPI service with human review
+src/synthdata: synthetic SAP/CRM generator, schema, loader
+src/evals: scoring and evaluation runner
+src/deploy: Dockerfile and Langfuse compose file
+tests: unit (fakes, no network) and integration (Postgres)
+docs: architecture, synthetic data, evaluation, ADRs, design spec and plan
+results: evaluation outputs (JSON per run, table in results/README.md)
+assets/identity: logo files and brand guide

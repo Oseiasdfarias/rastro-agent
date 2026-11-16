@@ -23,13 +23,18 @@
   <a href="docs/architecture.md">Architecture</a> ·
   <a href="docs/synthetic-data.md">Synthetic data</a> ·
   <a href="docs/evaluation.md">Evaluation</a> ·
-  <a href="assets/identity/README.md">Brand</a> ·
-  <a href="README.pt-BR.md">Português</a>
+  <a href="assets/identity/README.md">Brand</a>
+</p>
+
+<p align="center">
+  <a href="#english">English</a> · <a href="#português">Português</a>
 </p>
 
 ---
 
-## The demo moment
+## English
+
+### The demo moment
 
 ```
 CRM complaint, delivery number missing
@@ -39,7 +44,7 @@ CRM complaint, delivery number missing
   → report: verdict · equipment · failure mode · cited record ids → waiting for human review
 ```
 
-## The problem
+### The problem
 
 When a customer complains about a batch, a quality engineer rebuilds the trail by hand: CRM
 case → delivery → batch → production order → machine → what maintenance wrote that week.
@@ -47,7 +52,7 @@ The data is in different systems and the maintenance notes are free text written
 It is slow, and it is the kind of reading an LLM does well, as long as every claim can be
 checked.
 
-## What it does
+### What it does
 
 - **Tools, not free search.** The model can only call six typed tools (case, delivery, find
   deliveries, batch origin, equipment history, manual search). Arguments are validated before
@@ -62,7 +67,7 @@ checked.
 - **Measured against a simpler option.** A fixed pipeline makes the same lookups in a fixed
   order and calls the LLM once. Both are scored on 40 cases with a known answer.
 
-## Architecture
+### Architecture
 
 ```mermaid
 flowchart LR
@@ -86,7 +91,7 @@ pipeline, evidence check) → `adapters` (Postgres, pgvector, LiteLLM). Swapping
 ERP for a real one is a new class in `adapters/erp/`. Details in
 [docs/architecture.md](docs/architecture.md).
 
-## Results
+### Results
 
 40 cases with a known answer (30 planted failures, 10 complaints with no factory cause),
 `gemini/gemini-3.1-flash-lite`, same tools and same report prompt for both strategies.
@@ -114,7 +119,7 @@ Full table and per-case results: [results/](results/) · method: [docs/evaluatio
 `qwen2.5:3b` on CPU took over 5 minutes per call on long prompts, so the published run uses a
 small cloud model; the local model stays the default for `make investigate`.
 
-## Run it
+### Run it
 
 Only Docker is needed on the host. The default model is `qwen2.5:3b` on a local
 [Ollama](https://ollama.com); any LiteLLM model works through `LLM_MODELS`.
@@ -139,7 +144,7 @@ curl -s -X POST localhost:8000/investigations/<thread_id>/review \
      -H 'content-type: application/json' -d '{"decision": "approve"}'
 ```
 
-## Repository layout
+### Repository layout
 
 ```
 src/rastro/       the application: domain, application, agent, tools, adapters, api
@@ -152,7 +157,7 @@ results/          evaluation outputs
 assets/identity/  logo, favicon, banners, brand guide
 ```
 
-## Decisions
+### Decisions
 
 | Decision | Why |
 |---|---|
@@ -162,7 +167,7 @@ assets/identity/  logo, favicon, banners, brand guide
 | Ollama context fixed at 16k tokens | its default window silently cuts long prompts |
 | No cloud deploy | the image runs anywhere Docker runs; deploying was out of scope |
 
-## Limitations
+### Limitations
 
 - **Synthetic data.** One fictional plant, 6 machines, 26 weeks, 5 failure modes. Real
   maintenance text is messier and real complaints are more ambiguous.
@@ -173,7 +178,82 @@ assets/identity/  logo, favicon, banners, brand guide
 - The `cli` service uses host networking to reach a host Ollama, which is Linux only
   ([ADR 0003](docs/adr/0003-cli-on-host-network.md)).
 
-## License
+### License
 
 MIT. The WEG motor manual is downloaded from the manufacturer at seed time and is not
 redistributed here.
+
+---
+
+## Português
+
+Um agente de IA que segue a reclamação de um cliente pelos registros do CRM e do ERP até a máquina que fez o lote, e entrega um relatório com fontes para o engenheiro da qualidade.
+
+### O problema
+
+Quando um cliente reclama de um lote, o engenheiro da qualidade monta o rastro à mão: caso no
+CRM → entrega → lote → ordem de produção → máquina → o que a manutenção escreveu naquela
+semana. Os dados estão em sistemas diferentes e as notas de manutenção são texto livre escrito
+às pressas. É uma leitura que um LLM faz bem, desde que cada afirmação possa ser conferida.
+
+### O que o projeto faz
+
+- **Ferramentas, não busca livre.** O modelo só chama seis ferramentas com argumentos
+  validados antes de rodar. Erro volta para o modelo como mensagem.
+- **Proteções em volta do modelo.** Limite de passos, chamada repetida bloqueada, troca de
+  provedor quando um cai, e recuperação de chamada de ferramenta escrita como texto.
+- **Todo fato tem fonte.** O relatório cita ids de registro (`QMEL:…`, `AUFK:…`, `LIPS:…`). Id
+  que não existe ou que nenhuma ferramenta devolveu é removido. Causa sem evidência vira
+  `insufficient_data`.
+- **Uma pessoa decide.** A execução pausa para revisão (aprovar, recusar, editar) e retoma de
+  um checkpoint no Postgres.
+- **Medido contra uma opção mais simples.** Um pipeline fixo faz as mesmas consultas em ordem
+  fixa e chama o LLM uma vez. Os dois são avaliados em 40 casos com resposta conhecida.
+
+### Resultados
+
+40 casos (30 falhas plantadas, 10 reclamações sem causa de fábrica),
+`gemini/gemini-3.1-flash-lite`, mesmas ferramentas e mesmo prompt de relatório.
+
+| | Pipeline fixo | Agente |
+|---|---|---|
+| Veredito certo | **39 / 40** | 33 / 40 |
+| Equipamento certo (30 falhas) | 29 / 30 | 28 / 30 |
+| Modo de falha certo (30 falhas) | 29 / 30 | 27 / 30 |
+| Ruído respondido como "sem causa de fábrica" | 10 / 10 | 10 / 10 |
+| Tokens por caso | 2,1 mil | 12,7 mil |
+| Segundos por caso | 1,8 | 7,2 |
+
+**O desenho mais simples ganhou.** Este rastro tem sempre o mesmo formato, então uma sequência
+fixa de consultas mais uma chamada ao LLM acerta mais, custa 6 vezes menos e é 4 vezes mais
+rápida do que deixar o modelo escolher os passos. Em 5 dos 7 vereditos errados, o agente
+apontou a máquina e o modo de falha certos, mas não citou nenhum registro; a checagem de
+evidência recusou a causa. Agente vale o custo quando o caminho não é conhecido de antemão, o
+que este conjunto de dados não testa.
+
+### Como rodar
+
+Só precisa de Docker. O modelo padrão é `qwen2.5:3b` num Ollama local; qualquer modelo do
+LiteLLM funciona por `LLM_MODELS`.
+
+```bash
+cp .env.example .env
+make build && make up        # Postgres + pgvector, Redis, API na porta 8000
+make seed                    # dados sintéticos SAP/CRM + índice do manual
+make investigate CASE=CS-00002
+make eval ARGS="--strategy agent --limit 10"
+make observability           # opcional: Langfuse na porta 3000
+make test
+```
+
+### Limitações
+
+- **Dados sintéticos.** Uma fábrica fictícia, 6 máquinas, 26 semanas, 5 modos de falha. Nomes
+  de tabela e campo seguem o SAP; não há conexão com SAP real.
+- **40 casos.** Diferença de um ou dois casos é ruído.
+- **Um modelo pequeno na nuvem.** O `qwen2.5:3b` em CPU passou de 5 minutos por chamada nos
+  prompts longos.
+
+### Licença
+
+MIT. O manual de motores da WEG é baixado do fabricante no seed e não é redistribuído aqui.

@@ -23,7 +23,8 @@
   <a href="docs/architecture.md">Architecture</a> ·
   <a href="docs/synthetic-data.md">Synthetic data</a> ·
   <a href="docs/evaluation.md">Evaluation</a> ·
-  <a href="assets/identity/README.md">Brand</a>
+  <a href="assets/identity/README.md">Brand</a> ·
+  <a href="README.pt-BR.md">Português</a>
 </p>
 
 ---

@@ -1,4 +1,4 @@
-.PHONY: help build up down seed eval test test-int lint shell
+.PHONY: help build up down seed eval investigate test test-int lint shell
 .DEFAULT_GOAL := help
 RUN = docker compose run --rm api
 
@@ -18,7 +18,7 @@ seed:  ## gera os dados sintéticos e indexa os manuais
 	docker compose --profile tools run --rm seed
 
 eval:  ## mede agente e pipeline fixo: make eval ARGS="--strategy agent --limit 10"
-	$(RUN) rootcause eval $(ARGS)
+	docker compose --profile tools run --rm cli eval $(ARGS)
 
 test:  ## testes unitários no contêiner
 	$(RUN) pytest
@@ -29,6 +29,9 @@ test-int:  ## testes de integração (precisa do banco)
 lint:  ## confere o estilo
 	$(RUN) ruff check src tests
 	$(RUN) ruff format --check src tests
+
+investigate:  ## investiga um caso: make investigate CASE=CS-00001
+	docker compose --profile tools run --rm cli investigate $(CASE) $(ARGS)
 
 shell:  ## abre um shell no contêiner
 	$(RUN) bash

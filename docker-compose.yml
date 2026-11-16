@@ -51,6 +51,17 @@ services:
     profiles: [tools]
     command: ["python", "-m", "synthdata", "--seed", "7"]
 
+  # Runs on the host network so it reaches an Ollama bound to 127.0.0.1 on the host.
+  cli:
+    <<: *app
+    profiles: [tools]
+    network_mode: host
+    environment:
+      DATABASE_URL: postgresql://rootcause:rootcause@localhost:${DB_PORT:-55490}/rootcause
+      OLLAMA_BASE_URL: ${OLLAMA_BASE_URL:-http://localhost:11434}
+    extra_hosts: []
+    entrypoint: ["rootcause"]
+
   ollama:
     image: ollama/ollama:latest
     profiles: [local-llm]

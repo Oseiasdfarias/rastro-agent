@@ -11,8 +11,8 @@ tables so the queries look like the real thing; no real SAP data or system is in
 | EQUI | 6 | 4 molding presses, 2 extruders |
 | AFKO / AFPO | 2,184 | production orders, one batch (CHARG) per shift |
 | VBAK / VBAP, LIKP / LIPS | 2,184 each | sales orders and deliveries, one batch per delivery |
-| QMEL | ~ 150 | maintenance notes, free text in shop-floor Portuguese |
-| AUFK | ~ 85 | maintenance orders: PM02 preventive, PM01 corrective |
+| QMEL | 179 | maintenance notes, free text in shop-floor Portuguese |
+| AUFK | 86 | maintenance orders: PM02 preventive, PM01 corrective |
 | crm_account / crm_case | 40 / 40 | CRM accounts and complaints |
 
 ## Planted failures

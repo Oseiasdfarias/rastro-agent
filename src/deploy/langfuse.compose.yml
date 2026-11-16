@@ -84,7 +84,7 @@ services:
       retries: 20
 
   minio:
-    image: minio/minio:latest
+    image: cgr.dev/chainguard/minio
     profiles: [observability]
     entrypoint: sh
     command: -c 'mkdir -p /data/langfuse && minio server --address ":9000" /data'

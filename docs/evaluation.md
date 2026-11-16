@@ -23,9 +23,11 @@ any failure. Per case (`src/evals/score.py`):
 
 Steps for the fixed pipeline are lookups plus the LLM call; for the agent, LLM turns.
 
-Agent misses: CS-00002, 07, 16, 18, 23, 31, 35, 37. In six of them the final report named the
-right equipment but cited no record, and `finalize` turned the cause into
-`insufficient_data`. CS-00002 hit the 8-step limit after checking five candidate batches one
+Agent misses: wrong verdict in CS-00002, 07, 16, 18, 31, 35, 37; right verdict but wrong
+failure mode in CS-00023. In five of the wrong verdicts (02, 07, 18, 31, 37) the report named
+the right equipment and failure mode but cited no record; re-running them showed an empty
+evidence list every time, and with the current code the report says "no record cited for
+PR-02 / sensor_fault; cause not accepted". CS-00016 and CS-00035 picked the wrong equipment. CS-00002 hit the 8-step limit after checking five candidate batches one
 call at a time. Fixed pipeline miss: CS-00038.
 
 The agent was not tuned after seeing these cases; changing prompts or the step limit now and

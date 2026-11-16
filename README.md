@@ -103,9 +103,9 @@ ERP for a real one is a new class in `adapters/erp/`. Details in
 machine → maintenance), so a fixed sequence of lookups plus one LLM call is more accurate,
 6× cheaper and 4× faster than letting the model choose the steps.
 
-Where the agent lost: in 6 of its 7 wrong verdicts it named the right machine and failure mode
-but cited no record in the final report, so the evidence check refused the cause and returned
-`insufficient_data`. The guard did its job; a cause without a source never reaches the
+Where the agent lost: in 5 of its 7 wrong verdicts it named the right machine and failure mode
+but cited no record in the final report (re-runs of those five cases show an empty evidence
+list), so the evidence check refused the cause and returned `insufficient_data`. The guard did its job; a cause without a source never reaches the
 engineer. An agent earns its cost when the path is not known in advance (several data
 sources, follow-up questions), which this dataset does not test.
 

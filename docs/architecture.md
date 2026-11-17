@@ -89,17 +89,51 @@ Guards in the loop:
 | `factory_cause` with no maintenance record (QMEL/AUFK) left | `application/finalize.py` | becomes `insufficient_data` |
 | Provider down | `adapters/llm/gateway.py` | next model in `LLM_MODELS`; if none, API answers 503 |
 
-## Manual search
+## RAG over the maintenance manual
 
-The Portuguese section of the WEG electric-motor manual (pages 157 to 233) is split into
-800-character chunks with 150 overlap, embedded with `intfloat/multilingual-e5-small`
-(`passage:` / `query:` prefixes) and stored in `manual_chunks` with an HNSW cosine index.
-`search_manuals` returns the top 4. These settings come from rag-manual-poc.
+The agent combines two kinds of retrieval: exact SQL lookups for the trail (case, delivery,
+batch, machine, maintenance) and RAG over the equipment manual for background on the symptom.
 
-Measured here (`rastro eval-manuals`): the manual fits bearing problems but not press heaters,
-molds or pressure sensors, and similarity scores do not separate relevant from unrelated
-chunks, so no threshold is used. Manual chunks are context for the model and never count as
-evidence for a cause. See [evaluation.md](evaluation.md#manual-retrieval-2026-11-16).
+**Indexing** (once, in `make seed`, `adapters/manuals/ingest.py`):
+
+```mermaid
+flowchart LR
+    PDF[WEG motor manual<br/>PT section, pages 157-233] --> TX[text per page<br/>pypdf]
+    TX --> CH[chunks<br/>800 chars, 150 overlap]
+    CH --> EM[embeddings<br/>multilingual-e5-small<br/>prefix 'passage:']
+    EM --> DB[(manual_chunks<br/>pgvector, HNSW cosine)]
+```
+
+**Query** (every time `search_manuals` runs, `adapters/manuals/pgvector.py`):
+
+```mermaid
+flowchart LR
+    N[symptom text<br/>from the maintenance notes] --> QE[embedding<br/>prefix 'query:']
+    QE --> KNN[top 4 by cosine<br/>in manual_chunks]
+    KNN --> CTX[chunks with page and id<br/>MANUAL:page/n]
+    CTX --> LLM[LLM prompt<br/>as context]
+```
+
+Where it is used:
+
+| Strategy | How the manual is searched |
+|---|---|
+| Fixed pipeline | always once, with the text of the last maintenance notes (or the complaint if there are none) |
+| Agent | `search_manuals` is one of the six tools; the model decides when and with which words |
+
+Rules:
+- Chunk ids (`MANUAL:216/0`) can be cited in the report, but a manual chunk is never evidence
+  for a cause. `finalize` accepts `factory_cause` only with a QMEL or AUFK record.
+- The settings (model, chunk size, overlap, Portuguese section) come from the measurements in
+  rag-manual-poc ([ADR 0002](adr/0002-pgvector-instead-of-chroma.md)).
+
+Measured here (`rastro eval-manuals`, 20 symptom notes × top 3): bearing questions find a
+relevant chunk 4 of 4 times; misalignment 0 of 4; for heater, mold and pressure-sensor faults
+the manual has nothing relevant but the search still returns 3 chunks every time. 55 of 60
+returned chunks are unrelated, and similarity scores (0.83 to 0.88) do not separate relevant
+from unrelated, so no threshold is used. The fix is one manual per equipment with the search
+filtered by the machine that made the batch. Details in
+[evaluation.md](evaluation.md#manual-retrieval-2026-11-16).
 
 ## Services
 

@@ -87,6 +87,25 @@ flowchart LR
     L -. cache .-> RD[(Redis)]
 ```
 
+#### RAG over the maintenance manual
+
+The trail itself uses exact SQL lookups. RAG is used for background: the equipment manual is
+chunked, embedded and searched by the symptom written in the maintenance notes.
+
+```mermaid
+flowchart LR
+    PDF[motor manual PDF] --> CH[chunks<br/>800 / 150]
+    CH --> EM[e5-small<br/>embeddings]
+    EM --> DB[(pgvector)]
+    N[symptom in the<br/>maintenance notes] --> Q[query embedding]
+    Q --> DB
+    DB --> K[top 4 chunks<br/>with page] --> P[LLM prompt]
+```
+
+Manual chunks can be cited but never count as evidence for a cause. The search was measured
+and is weak with a motor manual for press faults (see Limitations and
+[docs/architecture.md](docs/architecture.md#rag-over-the-maintenance-manual)).
+
 All code is in `src/`, in layers: `domain` (no dependencies) → `application` (ports, fixed
 pipeline, evidence check) → `adapters` (Postgres, pgvector, LiteLLM). Swapping the synthetic
 ERP for a real one is a new class in `adapters/erp/`. Details in
@@ -222,6 +241,15 @@ semana. Os dados estão em sistemas diferentes e as notas de manutenção são t
   um checkpoint no Postgres.
 - **Medido contra uma opção mais simples.** Um pipeline fixo faz as mesmas consultas em ordem
   fixa e chama o LLM uma vez. Os dois são avaliados em 40 casos com resposta conhecida.
+
+### RAG sobre o manual de manutenção
+
+O rastro em si usa consultas SQL exatas. O RAG entra como contexto: o manual do equipamento é
+dividido em trechos, vira embedding no pgvector e é consultado pelo sintoma escrito nas notas
+de manutenção; os 4 trechos mais parecidos vão para o prompt, com a página. Trecho de manual
+pode ser citado, mas nunca conta como evidência de causa. A busca foi medida e é fraca com um
+manual de motores para falhas de prensa (ver Limitações e
+[docs/architecture.md](docs/architecture.md#rag-over-the-maintenance-manual)).
 
 ### Resultados
 

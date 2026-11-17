@@ -82,7 +82,7 @@ flowchart LR
     T --> ERP[(ERP tables<br/>SAP format)]
     T --> CRM[(CRM cases)]
     T --> M[(manual chunks<br/>pgvector)]
-    A -. LiteLLM .-> L[Ollama / OpenAI / Anthropic]
+    A -. LiteLLM .-> L[Ollama / Gemini / OpenAI / Anthropic]
     A -. traces .-> LF[Langfuse]
     L -. cache .-> RD[(Redis)]
 ```
@@ -112,8 +112,8 @@ machine → maintenance), so a fixed sequence of lookups plus one LLM call is mo
 
 Where the agent lost: in 5 of its 7 wrong verdicts it named the right machine and failure mode
 but cited no record in the final report (re-runs of those five cases show an empty evidence
-list), so the evidence check refused the cause and returned `insufficient_data`. The guard did its job; a cause without a source never reaches the
-engineer. An agent earns its cost when the path is not known in advance (several data
+list), so the evidence check refused the cause and returned `insufficient_data`. The guard
+did its job: a cause without a source never reaches the engineer. An agent earns its cost when the path is not known in advance (several data
 sources, follow-up questions), which this dataset does not test.
 
 Full table and per-case results: [results/](results/) · method: [docs/evaluation.md](docs/evaluation.md).
@@ -123,17 +123,24 @@ small cloud model; the local model stays the default for `make investigate`.
 ### Run it
 
 Only Docker is needed on the host. The default model is `qwen2.5:3b` on a local
-[Ollama](https://ollama.com); any LiteLLM model works through `LLM_MODELS`.
+[Ollama](https://ollama.com); any LiteLLM model works through `LLM_MODELS` or `--model`.
+For the published run, put `GEMINI_API_KEY` in `.env`.
 
 ```bash
 cp .env.example .env
 make build && make up        # Postgres + pgvector, Redis, API on :8000
 make seed                    # synthetic SAP/CRM data + manual index
 make investigate CASE=CS-00002
-make eval ARGS="--strategy agent --limit 10"
+make eval ARGS="--strategy fixed --model gemini/gemini-3.1-flash-lite"
+make eval ARGS="--strategy agent --model gemini/gemini-3.1-flash-lite"
+docker compose --profile tools run --rm cli eval-manuals   # manual search quality
 make observability           # optional: Langfuse on :3000
 make test                    # unit tests in the container
 ```
+
+The `api` container reaches the model from the compose network: use a cloud model in
+`LLM_MODELS`, start Ollama with `OLLAMA_HOST=0.0.0.0`, or use the `local-llm` profile
+([ADR 0003](docs/adr/0003-cli-on-host-network.md)).
 
 Review through the API:
 
@@ -172,8 +179,9 @@ assets/identity/  logo, favicon, banners, brand guide
 
 - **Synthetic data.** One fictional plant, 6 machines, 26 weeks, 5 failure modes. Real
   maintenance text is messier and real complaints are more ambiguous.
-- **Small local model.** Results with `qwen2.5:3b` on CPU say as much about the model as about
-  the design. Re-run `make eval` with a larger model to compare.
+- **One small cloud model.** The published numbers come from `gemini/gemini-3.1-flash-lite`.
+  A larger model may close the gap between the agent and the fixed pipeline; re-run
+  `make eval` with another `--model` to compare.
 - **40 cases.** Differences of one or two cases are noise.
 - **The manual search is weak.** The indexed manual is for electric motors. On the 20 symptom
   notes, 55 of 60 returned chunks were unrelated, and similarity scores do not separate good
@@ -239,14 +247,17 @@ que este conjunto de dados não testa.
 ### Como rodar
 
 Só precisa de Docker. O modelo padrão é `qwen2.5:3b` num Ollama local; qualquer modelo do
-LiteLLM funciona por `LLM_MODELS`.
+LiteLLM funciona por `LLM_MODELS` ou `--model`. Para repetir a rodada publicada, coloque
+`GEMINI_API_KEY` no `.env`.
 
 ```bash
 cp .env.example .env
 make build && make up        # Postgres + pgvector, Redis, API na porta 8000
 make seed                    # dados sintéticos SAP/CRM + índice do manual
 make investigate CASE=CS-00002
-make eval ARGS="--strategy agent --limit 10"
+make eval ARGS="--strategy fixed --model gemini/gemini-3.1-flash-lite"
+make eval ARGS="--strategy agent --model gemini/gemini-3.1-flash-lite"
+docker compose --profile tools run --rm cli eval-manuals   # qualidade da busca no manual
 make observability           # opcional: Langfuse na porta 3000
 make test
 ```

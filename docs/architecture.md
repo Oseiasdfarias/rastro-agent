@@ -17,6 +17,53 @@ src/rastro/
 synthetic ERP by a real one means writing a new class under `adapters/erp/` that implements
 `ErpPort` (for SAP, typically OData services); nothing else changes.
 
+## Ports
+
+| Port | Methods | Implementation |
+|---|---|---|
+| `CrmPort` | `get_case`, `list_case_ids` | `adapters/crm/postgres.py` |
+| `ErpPort` | `get_delivery`, `find_deliveries`, `get_batch_origin`, `get_equipment_history`, `record_exists` | `adapters/erp/postgres.py` |
+| `ManualsPort` | `search(query, k)` | `adapters/manuals/pgvector.py` |
+| `LlmPort` | `chat(messages, tools, response_format)` | `adapters/llm/gateway.py` (LiteLLM) |
+
+`tests/fakes.py` has in-memory versions of the first three and a scripted LLM, so unit tests
+need no database, network or model.
+
+## The trail through the data
+
+```mermaid
+flowchart LR
+    C[crm_case<br/>complaint, customer,<br/>material, delivery no.] --> L[LIKP / LIPS<br/>delivery item,<br/>batch CHARG]
+    L --> P[AFPO / AFKO<br/>production order,<br/>work center, dates]
+    P --> E[EQUI<br/>equipment]
+    E --> Q[QMEL / AUFK<br/>maintenance notes<br/>and orders]
+    Q -.-> MN[manual chunks<br/>pgvector]
+```
+
+Every record has an id like `LIPS:80001251/000010` or `QMEL:300000158`
+(`domain/records.py`); the report cites these ids and `finalize` checks them. When the
+delivery number is missing or wrong, `find_deliveries` searches the customer's deliveries of
+that material in the 90 days before the complaint.
+
+## Two strategies, same tools
+
+```mermaid
+flowchart TB
+    subgraph fixed [Fixed pipeline: application/fixed.py]
+        F1[case] --> F2[delivery or find_deliveries] --> F3[batch origin] --> F4[equipment history<br/>production ±14 days] --> F5[manual search] --> F6[one LLM call<br/>structured report]
+    end
+    subgraph agent [Agent: agent/graph.py]
+        A1[LLM picks a tool] --> A2[tool runs] --> A1
+        A1 --> A3[LLM writes the<br/>structured report]
+    end
+    F6 --> V[finalize: evidence check]
+    A3 --> V
+```
+
+Both read the same ports (the agent through `tools/registry.py`), use the same report prompt
+(`agent/prompts/report.md`) and the same `finalize`. The API runs the agent with human review;
+the fixed pipeline is the baseline in the evaluation.
+
 ## One investigation
 
 ```mermaid
@@ -42,6 +89,18 @@ Guards in the loop:
 | `factory_cause` with no maintenance record (QMEL/AUFK) left | `application/finalize.py` | becomes `insufficient_data` |
 | Provider down | `adapters/llm/gateway.py` | next model in `LLM_MODELS`; if none, API answers 503 |
 
+## Manual search
+
+The Portuguese section of the WEG electric-motor manual (pages 157 to 233) is split into
+800-character chunks with 150 overlap, embedded with `intfloat/multilingual-e5-small`
+(`passage:` / `query:` prefixes) and stored in `manual_chunks` with an HNSW cosine index.
+`search_manuals` returns the top 4. These settings come from rag-manual-poc.
+
+Measured here (`rastro eval-manuals`): the manual fits bearing problems but not press heaters,
+molds or pressure sensors, and similarity scores do not separate relevant from unrelated
+chunks, so no threshold is used. Manual chunks are context for the model and never count as
+evidence for a cause. See [evaluation.md](evaluation.md#manual-retrieval-2026-11-16).
+
 ## Services
 
 | Service | Image | Role |
@@ -50,5 +109,5 @@ Guards in the loop:
 | `redis` | redis:7-alpine | LiteLLM response cache |
 | `api` | built from `src/deploy/Dockerfile` | FastAPI on :8000 |
 | `seed`, `cli` | same image | data load; eval and investigate (host network, to reach a host Ollama) |
-| `langfuse-*`, `clickhouse`, `minio` | official images | tracing UI on :3000, profile `observability` |
+| `langfuse-web`, `langfuse-worker`, `langfuse-db`, `clickhouse`, `minio` | langfuse/langfuse:3, clickhouse 24.8, postgres 16, cgr.dev/chainguard/minio | tracing UI on :3000, profile `observability` |
 | `ollama` | ollama/ollama | optional, profile `local-llm` |
